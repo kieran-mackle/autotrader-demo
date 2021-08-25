@@ -52,30 +52,10 @@ class LongEMAcrossOver():
                 related_orders = list(current_positions.keys())[0]
                 order_type = 'close'
         
-        # Calculate exit targets
-        exit_dict = self.generate_exit_levels(signal, i)
-        
         # Construct signal dictionary
         signal_dict["order_type"]   = order_type
         signal_dict["direction"]    = signal
-        signal_dict["stop_loss"]    = exit_dict["stop_loss"]
-        signal_dict["stop_type"]    = exit_dict["stop_type"]
-        signal_dict["take_profit"]  = exit_dict["take_profit"]
         signal_dict["related_orders"] = related_orders
         
         return signal_dict
 
-
-    def generate_exit_levels(self, signal, i):
-        ''' Function to determine stop loss and take profit levels '''
-    
-        # Put exit strategy here
-        stop = np.nan
-        take = np.nan
-        stop_type = 'limit'
-        
-        exit_dict = {'stop_loss'    : stop, 
-                      'stop_type'    : stop_type,
-                      'take_profit'  : take}
-        
-        return exit_dict
