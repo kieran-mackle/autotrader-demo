@@ -1,2 +1,2 @@
-# autotrader-demo
-A repository containing example files to get started with AutoTrader
+# Welcome to the AutoTrader Demo Repository
+This repository contains example files to help you get started with AutoTrader.
