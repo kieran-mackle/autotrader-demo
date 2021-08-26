@@ -12,3 +12,4 @@ at.run()
 
 # Demo Strategies:
 # long_ema_crossover
+# macd (make sure to set leverage appropriately)
