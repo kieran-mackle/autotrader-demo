@@ -7,8 +7,8 @@ RISK_PC: 1.5
 SIZING: 'risk'
 PARAMETERS:
   ema_period: 200
-  MACD_fast: 12
-  MACD_slow: 26
+  MACD_fast: 5
+  MACD_slow: 19
   MACD_smoothing: 9
   
   # Exit level parameters

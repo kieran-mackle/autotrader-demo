@@ -75,10 +75,8 @@ class SimpleMACD:
         signal_dict["order_type"]   = order_type
         signal_dict["direction"]    = signal
         signal_dict["stop_loss"]    = exit_dict["stop_loss"]
-        
         signal_dict["stop_type"]    = exit_dict["stop_type"]
         signal_dict["take_profit"]  = exit_dict["take_profit"]
-        signal_dict["related_orders"] = related_orders
         
         return signal_dict
     
