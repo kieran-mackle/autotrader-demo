@@ -1,4 +1,5 @@
-from autotrader.autoplot import AutoPlot
+# from autotrader.autoplot import AutoPlot
+from autotrader.apcleanup import AutoPlot
 from autotrader.lib.autodata import GetData
 from autotrader.lib.indicators import crossover, cross_values
 import talib
@@ -9,7 +10,7 @@ instrument = 'EURUSD=X'
 
 data = get_data.yahoo(instrument, '1h', 
                       start_time='2020-01-01', 
-                      end_time='2020-03-01')
+                      end_time='2020-08-01')
 
 
 ema = talib.EMA(data.Close.values, 200)
@@ -29,7 +30,9 @@ indicators = {'MACD (12/26/9)': {'type': 'MACD',
             'MACD Crossovers': {'type': 'below',
                                 'data': MACD_CO}}
 
-ap = AutoPlot()
-ap.data = data
-ap.view_indicators(indicators, instrument)
+ap = AutoPlot(data)
+# ap.data = data
+ap.plot(indicators=indicators, 
+        instrument=instrument,
+        show_fig=False)
 
