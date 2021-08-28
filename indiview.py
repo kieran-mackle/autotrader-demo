@@ -31,7 +31,6 @@ indicators = {'MACD (12/26/9)': {'type': 'MACD',
                                 'data': MACD_CO}}
 
 ap = AutoPlot(data)
-# ap.data = data
 ap.plot(indicators=indicators, 
         instrument=instrument,
         show_fig=False)
