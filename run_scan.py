@@ -11,6 +11,6 @@ at = AutoTrader()
 at.configure(show_plot=True)
 at.add_strategy('ema_crossover')
 at.backtest(start = "1/1/2020",
-            end = "1/3/2020",
-            leverage=1)
+            end = "1/12/2020",
+            leverage=30)
 at.run()

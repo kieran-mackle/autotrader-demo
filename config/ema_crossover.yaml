@@ -1,9 +1,9 @@
 NAME: 'EMA Crossover'
 MODULE: 'ema_crossover'
 CLASS: 'EMAcrossOver'
-INTERVAL: '1h'
+INTERVAL: '1d'
 PERIOD: 300
-RISK_PC: 0.5
+RISK_PC: 2
 SIZING: 'risk'
 PARAMETERS:
   slow_ema: 20

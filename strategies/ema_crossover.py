@@ -24,6 +24,9 @@ class EMAcrossOver():
         self.crossovers = crossover(self.fast_ema, 
                                     self.slow_ema)
         
+        # ATR for stops
+        self.atr = talib.ATR(data.High, data.Low, data.Close, 14)
+        
         # Construct indicators dict for plotting
         self.indicators = {'Fast EMA': {'type': 'MA',
                                         'data': self.fast_ema},
@@ -39,13 +42,13 @@ class EMAcrossOver():
         if self.crossovers[i] == 1:
             # Fast EMA has crossed above slow EMA, go long
             signal  = 1
-            stop    = self.data.Close[i] - 15*0.0001
+            stop    = self.data.Close[i] - 2*self.atr[i]
             take    = self.data.Close[i] + RR*(self.data.Close[i] - stop)
             
         elif self.crossovers[i] == -1:
             # Fast EMA has crossed below slow EMA, go short
             signal  = -1
-            stop    = self.data.Close[i] + 15*0.0001
+            stop    = self.data.Close[i] + 2*self.atr[i]
             take    = self.data.Close[i] + RR*(self.data.Close[i] - stop)
         
         else:
@@ -53,7 +56,6 @@ class EMAcrossOver():
             signal  = 0
             stop    = None
             take    = None
-            
         
         # Construct signal dictionary
         signal_dict["order_type"] = 'market'
