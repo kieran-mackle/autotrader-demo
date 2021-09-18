@@ -1,4 +1,11 @@
-# Welcome to the AutoTrader Demo Repository
+<p align="center">
+  <a href="https://kieran-mackle.github.io/AutoTrader/">
+    <img src="https://user-images.githubusercontent.com/60687606/132320916-23445f43-dfdc-4949-9881-e18f622605d2.png" alt="AutoTrader Logo" width="15%" >
+  </a>
+</p>
+
+<h1 align="center">Welcome to the AutoTrader Demo Repository</h1>
+
 This repository contains example files to help you get started with [AutoTrader](https://github.com/kieran-mackle/AutoTrader). More strategies will be added over time.
 
 ## Getting Started
