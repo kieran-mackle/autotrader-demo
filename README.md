@@ -9,7 +9,12 @@ pip install autotrader
 ```
 
 ### Download this Repository
-Clone this repository by your preffered method. If you are new to git, simply click the green 'code' button at the top right of this page and download the zip.
+Clone this repository by your preffered method. If you are new to git, simply click the green 'code' button at the top right of this page and download the zip. 
+Alternatively, click [here](https://github.com/kieran-mackle/autotrader-demo/archive/refs/heads/main.zip). You can also clone the repository on the command line using:
+
+```
+git clone https://github.com/kieran-mackle/autotrader-demo/ 
+```
 
 ### Tutorials
 If you would like a detailed explanation of how to construct a strategy with AutoTrader, refer to the tutorials on the AutoTrader website, by clicking 
