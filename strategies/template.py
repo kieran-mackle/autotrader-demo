@@ -7,7 +7,7 @@ class StrategyClass:
     ----------------------------    
     '''
 
-    def __init__(self, params, data, pair):
+    def __init__(self, params, data, instrument):
         ''' Define all indicators used in the strategy '''
         self.name   = "Strategy Name"
         self.data   = data
