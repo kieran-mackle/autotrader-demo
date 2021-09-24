@@ -51,11 +51,11 @@ class SuperTrendScan:
         order_type  = 'market'
         signal_dict = {}
 
-        if self.signals[i] == 1 and self.candles_since_signal < self.params['candle_tol']:
+        if self.signals[i] == 1 and self.candles_since_signal[i] < self.params['candle_tol']:
             # Start of uptrend
             signal = 1
         
-        elif self.signals[i] == -1 and self.candles_since_signal < self.params['candle_tol']:
+        elif self.signals[i] == -1 and self.candles_since_signal[i] < self.params['candle_tol']:
             # Start of downtrend
             signal = -1
         

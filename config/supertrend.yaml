@@ -1,7 +1,7 @@
 NAME: 'SuperTrend Scanner'
 MODULE: 'alt_supertrend'
 CLASS: 'SuperTrendScan'
-INTERVAL: '1h'
+INTERVAL: '1d'
 PERIOD: 300
 RISK_PC: 1.5
 SIZING: 'risk'
@@ -14,4 +14,3 @@ WATCHLIST: ['EURUSD=X',
             'EURJPY=X',
             'EURAUD=X',
             'AUDJPY=X']
-            
