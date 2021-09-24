@@ -7,10 +7,4 @@ RISK_PC: 1.5
 SIZING: 'risk'
 PARAMETERS:
   ema_period: 200
-  candle_tol: 5
-
-WATCHLIST: ['EURUSD=X',
-            'AUDCAD=X',
-            'EURJPY=X',
-            'EURAUD=X',
-            'AUDJPY=X']
+  candle_tol: 10

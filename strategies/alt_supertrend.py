@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Package import
-from autotrader.lib.indicators import supertrend, candles_between_crosses
+from autotrader.lib.indicators import supertrend, candles_between_crosses, rolling_signal_list
 from finta import TA
 import numpy as np
 
@@ -43,6 +43,18 @@ class SuperTrendScan:
     
         # Candles since last signal
         self.candles_since_signal = candles_between_crosses(self.signals)
+        
+        # Rolling signal list
+        self.rolling_signal = rolling_signal_list(self.signals)
+        
+        # Indicators
+        self.indicators = {'Supertrend (12/2)': {'type': 'Supertrend',
+                                                 'data': st_df},
+                           'EMA (200)': {'type': 'MA',
+                                         'data': ema},
+                           'Candles since': {'type': 'below',
+                                             'data': self.candles_since_signal}
+                           }
     
     def generate_signal(self, i, current_position):
         ''' Generate long and short signals based on SuperTrend Indicator '''
@@ -50,11 +62,13 @@ class SuperTrendScan:
         order_type  = 'market'
         signal_dict = {}
 
-        if self.signals[i] == 1 and self.candles_since_signal[i] < self.params['candle_tol']:
+        if self.rolling_signal[i] == 1 and \
+            self.candles_since_signal[i] < self.params['candle_tol']:
             # Start of uptrend
             signal = 1
         
-        elif self.signals[i] == -1 and self.candles_since_signal[i] < self.params['candle_tol']:
+        elif self.rolling_signal[i] == -1 and \
+            self.candles_since_signal[i] < self.params['candle_tol']:
             # Start of downtrend
             signal = -1
         
