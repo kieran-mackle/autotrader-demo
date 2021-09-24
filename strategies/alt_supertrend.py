@@ -24,19 +24,18 @@ class SuperTrendScan:
         self.data   = data
         self.params = params
         
-        ema200 = TA.EMA(data, params['ema_period'])
+        ema = TA.EMA(data, params['ema_period'])
         st_df  = supertrend(data, period = 12, ATR_multiplier = 2)
-        
         
         self.signals = np.zeros(len(data))
         for i in range(len(self.signals)):
-            if data.Close[i] > ema200[i] and \
+            if data.Close[i] > ema[i] and \
             st_df.trend[i] == 1 and \
             st_df.trend[i-1] == -1:
                 # Start of uptrend
                 self.signals[i] = 1
             
-            elif data.Close[i] < ema200[i] and \
+            elif data.Close[i] < ema[i] and \
             st_df.trend[i] == -1 and \
             st_df.trend[i-1] == 1:
                 # Start of downtrend
