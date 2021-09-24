@@ -1,6 +1,5 @@
 # Import packages
-import talib
-import numpy as np
+from finta import TA
 from autotrader.lib.indicators import crossover
 
 class LongEMAcrossOver():
@@ -16,11 +15,9 @@ class LongEMAcrossOver():
         self.params = params
         
         # EMA's
-        self.slow_ema = talib.EMA(self.data.Close.values, 
-                                  self.params['slow_ema'])
+        self.slow_ema = TA.EMA(data, self.params['slow_ema'])
         
-        self.fast_ema = talib.EMA(self.data.Close.values, 
-                                  self.params['fast_ema'])
+        self.fast_ema = TA.EMA(data, self.params['fast_ema'])
         
         self.crossovers = crossover(self.fast_ema, 
                                     self.slow_ema)
