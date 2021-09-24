@@ -3,7 +3,6 @@ AutoTrader Indiview
 --------------------
 A general script to view price data and indicators.
 '''
-
 from autotrader.autoplot import AutoPlot
 from autotrader.lib.autodata import GetData
 from autotrader.lib.indicators import crossover, cross_values
@@ -37,6 +36,4 @@ indicators = {'MACD (12/26/9)': {'type': 'MACD',
 
 # Instantiate AutoPlot and plot
 ap = AutoPlot(data)
-ap.plot(indicators=indicators, 
-        instrument=instrument)
-
+ap.plot(indicators=indicators, instrument=instrument)

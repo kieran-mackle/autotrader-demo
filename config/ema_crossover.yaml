@@ -1,0 +1,14 @@
+NAME: 'EMA Crossover'
+MODULE: 'ema_crossover'
+CLASS: 'EMAcrossOver'
+INTERVAL: '1d'
+PERIOD: 300
+RISK_PC: 2
+SIZING: 'risk'
+PARAMETERS:
+  slow_ema: 20
+  fast_ema: 10
+  RR: 2.0
+
+# Define pairs to monitor
+WATCHLIST: ['EURUSD=X']

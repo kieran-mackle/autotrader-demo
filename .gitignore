@@ -1,5 +1,7 @@
+*.html
 candlestick.html
 price_data/
+config/GLOBAL.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
