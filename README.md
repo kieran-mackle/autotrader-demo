@@ -32,3 +32,4 @@ The following is a list of demo strategies provided.
 
 - MACD Crossover Trend Strategy
 - EMA Crossover Strategy (long only)
+- SuperTrend Trend Detector (AutoScan example)
