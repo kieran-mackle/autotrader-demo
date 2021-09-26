@@ -25,7 +25,7 @@ git clone https://github.com/kieran-mackle/autotrader-demo/
 
 ### Tutorials
 If you would like a detailed explanation of how to construct a strategy with AutoTrader, refer to the tutorials on the AutoTrader website, by clicking 
-[here](http://127.0.0.1:4001/AutoTrader/tutorials/).
+[here](https://kieran-mackle.github.io/AutoTrader/tutorials).
 
 ## Demo Strategies
 The following is a list of demo strategies provided.
