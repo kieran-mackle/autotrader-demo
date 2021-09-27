@@ -30,6 +30,6 @@ If you would like a detailed explanation of how to construct a strategy with Aut
 ## Demo Strategies
 The following is a list of demo strategies provided.
 
-- MACD Crossover Trend Strategy (from website [tutorials](https://kieran-mackle.github.io/AutoTrader/tutorials/strategy))
-- EMA Crossover Strategy (long only)
+- MACD Crossover Trend Strategy (from the website [tutorials](https://kieran-mackle.github.io/AutoTrader/tutorials/strategy))
+- EMA Crossover Strategy (long only example)
 - SuperTrend Trend Detector ([AutoScan demo](https://kieran-mackle.github.io/AutoTrader/2021/09/27/developing-scanner.html))
