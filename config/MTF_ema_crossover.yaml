@@ -1,0 +1,15 @@
+NAME: 'MTF EMA Crossover'
+MODULE: 'MTF_ema_crossover'
+CLASS: 'EMAcrossOver'
+INTERVAL: '1h,1d'
+PERIOD: 300
+RISK_PC: 2
+SIZING: 'risk'
+PARAMETERS:
+  slow_ema: 20
+  fast_ema: 10
+  daily_ema: 200
+  RR: 2.0
+
+# Define pairs to monitor
+WATCHLIST: ['EURUSD=X']
