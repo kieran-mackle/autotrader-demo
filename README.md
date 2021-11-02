@@ -34,3 +34,6 @@ The following is a list of demo strategies provided.
 - EMA Crossover Strategy (long only example plus long/short Forex example)
 - SuperTrend Trend Detector ([AutoScan demo](https://kieran-mackle.github.io/AutoTrader/2021/09/27/developing-scanner.html))
 - Multiple timeframe EMA Crossover example
+
+### Requesting a Strategy
+Have a strategy you would like to be automated? Request it [here](https://github.com/kieran-mackle/autotrader-demo/issues/new?assignees=&labels=&template=strategy-request.md&title=%5BSTRATEGY+REQUEST%5D).
