@@ -1,0 +1,14 @@
+NAME: 'Portfolio Rebalance'
+MODULE: 'portfolio_rebalance'
+CLASS: 'Rebalance'
+INTERVAL: '1h'
+PERIOD: 300
+PARAMETERS:
+  rebalance_interval: 'weekly' # Not sure how this will be handled yet
+  VAS: 40 # %
+  VGS: 40 # %
+  VGB: 20 # %
+
+WATCHLIST: ['VAS.AX',
+            'VGS.AX',
+            'VGB.AX']
