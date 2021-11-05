@@ -31,24 +31,15 @@ class Rebalance:
             signal_dict['direction'] = 1 # buy
             signal_dict['size'] = self.calculate_position_size()
         
-        
-        # First check if the instrument is being held yet, if not, buy
-        # will need to consider the price of all others to calculate the 
-        # size
-        if self.instrument in current_holdings:
-            # Holding instrument already
-            print("already")
-        
         else:
-            # Instrument isn't held yet, buy
-            signal_dict['direction'] = 1
-            signal_dict['size'] = self.calculate_position_size()
-        
-        
-        # work out percentage of each holding 
-        # calculate new amount (ie. how much to sell or buy) of self.instrument
-        # Let other bots take care of their own instruments
-        
+            # Portfolio has holdings
+            
+            # Check if it is time to rebalance yet
+            self.params['rebalance_interval']
+            
+            # work out percentage of each holding 
+            # calculate new amount (ie. how much to sell or buy) of self.instrument
+            # Let other bots take care of their own instruments
         
         return signal_dict
     
