@@ -94,7 +94,8 @@ class Rebalance:
         account_balance = self.broker.get_balance()
         instrument_allocation_pc = self.params['rebalance_percentages'][self.instrument] / 100
         instrument_allocation_value = instrument_allocation_pc * account_balance * self.params['account_leverage']
-        position_size = round(instrument_allocation_value / price, self.params['partial_trade_rounding'])
+        position_size = np.floor((instrument_allocation_value / price)* \
+                                 10**self.params['partial_trade_rounding'])/10**self.params['partial_trade_rounding']
         
         # position_size = 1
         
