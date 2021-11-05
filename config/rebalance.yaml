@@ -6,9 +6,10 @@ PERIOD: 300
 INCLUDE_BROKER: True
 PARAMETERS:
   rebalance_interval: 'weekly' # Not sure how this will be handled yet
-  VAS: 40 # %
-  VGS: 40 # %
-  VGB: 20 # %
+  rebalance_percentages:
+    VAS.AX: 40 # %
+    VGS.AX: 40 # %
+    VGB.AX: 20 # %
 
 WATCHLIST: ['VAS.AX',
             'VGS.AX',
