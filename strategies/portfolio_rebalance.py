@@ -32,10 +32,6 @@ class Rebalance:
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
         current_holdings = self.broker.get_open_positions(rebalance_instruments)
 
-        print(self.instrument)        
-        print(i)
-        print(current_holdings)
-        
         if all(inst in current_holdings.keys() for inst in rebalance_instruments):
             # A position is held in all of the rebalance instruments
             
