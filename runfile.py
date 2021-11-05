@@ -9,7 +9,7 @@ from autotrader.autotrader import AutoTrader
 
 at = AutoTrader()
 at.configure(show_plot=True)
-at.add_strategy('macd')
+at.add_strategy('long_ema_crossover')
 at.backtest(start = '1/1/2020',
             end = '1/8/2020',
             leverage = 30,
