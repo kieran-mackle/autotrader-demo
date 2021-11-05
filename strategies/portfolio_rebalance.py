@@ -6,17 +6,21 @@ class Rebalance:
     Portfolio rebalancer.
     '''
     
-    def __init__(self, params, data, pair):
+    def __init__(self, params, data, instrument, broker, broker_utils):
         ''' Define all indicators used in the strategy '''
-        self.name   = "Simple MACD Trend Strategy"
+        self.name   = "Portfolio rebalancer"
         self.data   = data
         self.params = params
+        self.instrument = instrument
+        self.broker = broker
         
         
     def generate_signal(self, i, current_position):
         ''' Define strategy to determine entry signals '''
         
         # Get current positions held by account
+        
+        
         # work out percentage of each holding 
         # calculate new amount (ie. how much to sell or buy) of self.instrument
         # Let other bots take care of their own instruments

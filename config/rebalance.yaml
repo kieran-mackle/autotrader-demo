@@ -3,6 +3,7 @@ MODULE: 'portfolio_rebalance'
 CLASS: 'Rebalance'
 INTERVAL: '1h'
 PERIOD: 300
+INCLUDE_BROKER: True
 PARAMETERS:
   rebalance_interval: 'weekly' # Not sure how this will be handled yet
   VAS: 40 # %
