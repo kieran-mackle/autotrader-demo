@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 class Rebalance:
     '''
-    Portfolio rebalancer.
+    Portfolio rebalancer
+    --------------------
+    
+    Size calculation assumes instrument is traded against home currency.
+    
     '''
     
     def __init__(self, params, data, instrument, broker, broker_utils):
@@ -16,7 +20,7 @@ class Rebalance:
     def generate_signal(self, i, current_position):
         ''' Define strategy to determine entry signals '''
         
-        signal_dict = {}
+        signal_dict = {'order_type': 'market'}
         
         # Get current positions held by account
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
@@ -24,8 +28,8 @@ class Rebalance:
         
         if len(current_holdings) == 0:
             # Initialise portfolio
-            
-            
+            signal_dict['direction'] = 1 # buy
+            signal_dict['size'] = self.calculate_position_size()
         
         
         # First check if the instrument is being held yet, if not, buy
@@ -45,9 +49,6 @@ class Rebalance:
         # calculate new amount (ie. how much to sell or buy) of self.instrument
         # Let other bots take care of their own instruments
         
-        
-        # order_type  = 'market'
-       
         
         return signal_dict
     
