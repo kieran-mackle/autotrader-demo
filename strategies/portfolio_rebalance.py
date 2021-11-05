@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import datetime
 
 class Rebalance:
     '''
@@ -19,6 +20,7 @@ class Rebalance:
         self.params = params
         self.instrument = instrument
         self.broker = broker
+        self.last_rebalance = None
         
     def generate_signal(self, i, current_position):
         ''' Define strategy to determine entry signals '''
@@ -30,61 +32,50 @@ class Rebalance:
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
         current_holdings = self.broker.get_open_positions(rebalance_instruments)
         
-        list(set(rebalance_instruments).intersection(current_holdings))
-        
         if all(inst in current_holdings.keys() for inst in rebalance_instruments):
             # A position is held in all of the rebalance instruments
             
-            current_time = self.data.index
+            # Check if it is time to rebalance
+            current_time = self.data.index[i]
+            days_since_last_rebalance = (current_time - self.last_rebalance).days
             
-            # Will need to keep track of last rebalance time
-            # use timedelta here
-            # if current_time - last_rebalance > rebalance interval:
-            
-            # Calculate current asset allocation
-            asset_allocation = {}
-            total_value = 0
-            for instrument in rebalance_instruments:
-                position_value = current_holdings[instrument]['total_margin']
-                asset_allocation[instrument] = position_value
-                total_value += position_value
-            
-            allocation_error = abs(100*asset_allocation[self.instrument]/total_value - \
-                self.params['rebalance_percentages'][self.instrument])
-            
-            if allocation_error > self.params['rebalance_tolerance']:
-                # Rebalance required
+            if days_since_last_rebalance >= self.params['rebalance_every_N_days']:
+                # Calculate current asset allocation
+                asset_allocation = {}
+                total_value = 0
+                for instrument in rebalance_instruments:
+                    position_value = current_holdings[instrument]['total_margin']
+                    asset_allocation[instrument] = position_value
+                    total_value += position_value
                 
-                # Calculate required size to meet balance percentage
-                required_size = self.calculate_position_size()
+                allocation_error = abs(100*asset_allocation[self.instrument]/total_value - \
+                    self.params['rebalance_percentages'][self.instrument])
                 
-                # Calculate difference between required size and current position size
-                size_difference = required_size - current_holdings[self.instrument]['long_units']
-                
-                # Place order using calculated size difference to rebalance
-                signal_dict['direction'] = np.sign(size_difference)
-                signal_dict['size'] = size_difference
+                if allocation_error > self.params['rebalance_pc_tolerance']:
+                    # Rebalance required
+                    
+                    # Calculate required size to meet balance percentage
+                    required_size = self.calculate_position_size()
+                    
+                    # Calculate difference between required size and current position size
+                    size_difference = required_size - current_holdings[self.instrument]['long_units']
+                    
+                    # Place order using calculated size difference to rebalance
+                    signal_dict['direction'] = np.sign(size_difference)
+                    signal_dict['size'] = size_difference
+                    
+                    # Reset last_rebalance
+                    self.last_rebalance = current_time
             
         else:
             # Haven't acquired all rebalance instruments yet
             if self.instrument not in current_holdings:
                 signal_dict['direction'] = 1 # buy
                 signal_dict['size'] = self.calculate_position_size()
+                
+                # Assign time to last_rebalance attribute
+                self.last_rebalance = self.data.index[i]
         
-        # if len(current_holdings) == 0:
-        #     # Initialise portfolio
-        #     signal_dict['direction'] = 1 # buy
-        #     signal_dict['size'] = self.calculate_position_size()
-        
-        # else:
-        #     # Portfolio has holdings
-            
-        #     # Check if it is time to rebalance yet
-        #     self.params['rebalance_interval']
-            
-        #     # work out percentage of each holding 
-        #     # calculate new amount (ie. how much to sell or buy) of self.instrument
-        #     # Let other bots take care of their own instruments
         
         return signal_dict
     
