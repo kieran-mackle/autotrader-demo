@@ -31,6 +31,10 @@ class Rebalance:
         # Get current positions held by account
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
         current_holdings = self.broker.get_open_positions(rebalance_instruments)
+
+        print(self.instrument)        
+        print(i)
+        print(current_holdings)
         
         if all(inst in current_holdings.keys() for inst in rebalance_instruments):
             # A position is held in all of the rebalance instruments
@@ -55,7 +59,7 @@ class Rebalance:
                     # Rebalance required
                     
                     # Calculate required size to meet balance percentage
-                    required_size = self.calculate_position_size()
+                    required_size = self.calculate_position_size(self.data.Close[i])
                     
                     # Calculate difference between required size and current position size
                     size_difference = required_size - current_holdings[self.instrument]['long_units']
@@ -71,7 +75,7 @@ class Rebalance:
             # Haven't acquired all rebalance instruments yet
             if self.instrument not in current_holdings:
                 signal_dict['direction'] = 1 # buy
-                signal_dict['size'] = self.calculate_position_size()
+                signal_dict['size'] = self.calculate_position_size(self.data.Close[i])
                 
                 # Assign time to last_rebalance attribute
                 self.last_rebalance = self.data.index[i]
@@ -79,7 +83,7 @@ class Rebalance:
         
         return signal_dict
     
-    def calculate_position_size(self):
+    def calculate_position_size(self, price):
         ''' 
         Calculates position size of instrument based on desired position
         value and current price per unit.
@@ -89,10 +93,10 @@ class Rebalance:
         
         account_balance = self.broker.get_balance()
         instrument_allocation_pc = self.params['rebalance_percentages'][self.instrument] / 100
-        instrument_allocation_value = instrument_allocation_pc * account_balance
-        position_size = round(instrument_allocation_value / self.data.Close[-1])
+        instrument_allocation_value = instrument_allocation_pc * account_balance * self.params['account_leverage']
+        position_size = round(instrument_allocation_value / price, self.params['partial_trade_rounding'])
         
-        position_size = 1
+        # position_size = 1
         
         return position_size
     

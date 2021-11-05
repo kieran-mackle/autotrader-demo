@@ -11,6 +11,8 @@ PARAMETERS:
     VGS.AX: 40 # %
     VGB.AX: 20 # %
   rebalance_pc_tolerance: 5 # % 
+  account_leverage: 1
+  partial_trade_rounding: 1 # Round trade size to 1 decimal
 
 WATCHLIST: ['VAS.AX',
             'VGS.AX',
