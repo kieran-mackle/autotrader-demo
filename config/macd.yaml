@@ -15,7 +15,6 @@ PARAMETERS:
   RR: 1.5
 
 WATCHLIST: ['EURUSD=X',]
-            # 'AUDCAD=X',
             # 'EURJPY=X',
             # 'EURAUD=X',
             # 'AUDJPY=X']
