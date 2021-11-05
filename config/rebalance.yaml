@@ -10,6 +10,7 @@ PARAMETERS:
     VAS.AX: 40 # %
     VGS.AX: 40 # %
     VGB.AX: 20 # %
+  rebalance_tolerance: 5 # %
 
 WATCHLIST: ['VAS.AX',
             'VGS.AX',
