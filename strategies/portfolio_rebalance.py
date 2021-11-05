@@ -28,7 +28,9 @@ class Rebalance:
         current_holdings = self.broker.get_open_positions(rebalance_instruments)
         
         if self.instrument in current_holdings:
-            print('yehaw')
+            
+            # Need to create mechanism to prevent entering this loop when other 
+            # rebalance instruments are not in current_holdings
             
             asset_allocation = {}
             total_value = 0
