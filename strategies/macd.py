@@ -13,7 +13,7 @@ Rules for strategy:
 '''
 
 # Import packages
-import talib
+from finta import TA
 from autotrader.lib import indicators
 
 class SimpleMACD:
@@ -25,23 +25,19 @@ class SimpleMACD:
         self.params = params
         
         # 200EMA
-        self.ema    = talib.EMA(data.Close.values, params['ema_period'])
+        self.ema    = TA.EMA(data, params['ema_period'])
         
         # MACD
-        self.MACD, self.MACDsignal, self.MACDhist = talib.MACD(data['Close'].values, 
-                                                  self.params['MACD_fast'], 
-                                                  self.params['MACD_slow'], 
-                                                  self.params['MACD_smoothing']
-                                                  )
-        self.MACD_CO        = indicators.crossover(self.MACD, self.MACDsignal)
-        self.MACD_CO_vals   = indicators.cross_values(self.MACD, 
-                                                      self.MACDsignal,
+        self.MACD = TA.MACD(data, self.params['MACD_fast'], 
+                            self.params['MACD_slow'], self.params['MACD_smoothing'])
+        self.MACD_CO        = indicators.crossover(self.MACD.MACD, self.MACD.SIGNAL)
+        self.MACD_CO_vals   = indicators.cross_values(self.MACD.MACD, 
+                                                      self.MACD.SIGNAL,
                                                       self.MACD_CO)
         # Construct indicators dict for plotting
         self.indicators = {'MACD (12/26/9)': {'type': 'MACD',
-                                              'macd': self.MACD,
-                                              'signal': self.MACDsignal,
-                                              'histogram': self.MACDhist},
+                                              'macd': self.MACD.MACD,
+                                              'signal': self.MACD.SIGNAL},
                            'EMA (200)': {'type': 'MA',
                                          'data': self.ema}}
         
