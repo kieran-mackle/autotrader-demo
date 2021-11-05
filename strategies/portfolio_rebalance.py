@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+import numpy as np
+
 class Rebalance:
     '''
     Portfolio rebalancer
@@ -27,11 +30,18 @@ class Rebalance:
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
         current_holdings = self.broker.get_open_positions(rebalance_instruments)
         
-        if self.instrument in current_holdings:
+        list(set(rebalance_instruments).intersection(current_holdings))
+        
+        if all(inst in current_holdings.keys() for inst in rebalance_instruments):
+            # A position is held in all of the rebalance instruments
             
-            # Need to create mechanism to prevent entering this loop when other 
-            # rebalance instruments are not in current_holdings
+            current_time = self.data.index
             
+            # Will need to keep track of last rebalance time
+            # use timedelta here
+            # if current_time - last_rebalance > rebalance interval:
+            
+            # Calculate current asset allocation
             asset_allocation = {}
             total_value = 0
             for instrument in rebalance_instruments:
@@ -43,15 +53,23 @@ class Rebalance:
                 self.params['rebalance_percentages'][self.instrument])
             
             if allocation_error > self.params['rebalance_tolerance']:
-                # Rebalance
-                # calculate required size to meet balance percentage
-                # calculate difference between required size and current position size
-                # Place order using calculated size
-                size = self.calculate_position_size()
+                # Rebalance required
+                
+                # Calculate required size to meet balance percentage
+                required_size = self.calculate_position_size()
+                
+                # Calculate difference between required size and current position size
+                size_difference = required_size - current_holdings[self.instrument]['long_units']
+                
+                # Place order using calculated size difference to rebalance
+                signal_dict['direction'] = np.sign(size_difference)
+                signal_dict['size'] = size_difference
             
         else:
-            signal_dict['direction'] = 1 # buy
-            signal_dict['size'] = self.calculate_position_size()
+            # Haven't acquired all rebalance instruments yet
+            if self.instrument not in current_holdings:
+                signal_dict['direction'] = 1 # buy
+                signal_dict['size'] = self.calculate_position_size()
         
         # if len(current_holdings) == 0:
         #     # Initialise portfolio
@@ -76,10 +94,14 @@ class Rebalance:
         value and current price per unit.
         '''
         
+        # TODO - need to verify functionality
+        
         account_balance = self.broker.get_balance()
         instrument_allocation_pc = self.params['rebalance_percentages'][self.instrument] / 100
         instrument_allocation_value = instrument_allocation_pc * account_balance
-        position_size = instrument_allocation_value / self.data.Close[-1]
+        position_size = round(instrument_allocation_value / self.data.Close[-1])
+        
+        position_size = 1
         
         return position_size
     
