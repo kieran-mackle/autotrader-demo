@@ -1,0 +1,17 @@
+NAME: 'Portfolio Rebalance'
+MODULE: 'portfolio_rebalance'
+CLASS: 'Rebalance'
+INTERVAL: '1d'
+PERIOD: 300
+INCLUDE_BROKER: True
+PARAMETERS:
+  rebalance_every_N_days: 7
+  rebalance_percentages:
+    VAS.AX: 48 # %
+    VGS.AX: 48 # %
+  rebalance_pc_tolerance: 0 # % 
+  account_leverage: 1
+  partial_trade_rounding: 1 # Round trade size to 1 decimal
+
+WATCHLIST: ['VAS.AX',
+            'VGS.AX']

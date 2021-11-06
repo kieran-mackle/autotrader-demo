@@ -14,9 +14,8 @@ PARAMETERS:
   # Exit level parameters
   RR: 1.5
 
-WATCHLIST: ['EURUSD=X',]
-            # 'AUDCAD=X',
-            # 'EURJPY=X',
-            # 'EURAUD=X',
-            # 'AUDJPY=X']
+WATCHLIST: ['EURUSD=X',
+            'EURJPY=X',
+            'EURAUD=X',
+            'AUDJPY=X']
             
