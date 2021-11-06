@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-import datetime
 
 class Rebalance:
     '''
     Portfolio rebalancer
     --------------------
+    
+    Warning: This strategy is still in development. It is incomplete.
     
     Size calculation assumes instrument is traded against home currency.
     
@@ -63,6 +64,8 @@ class Rebalance:
                     # Place order using calculated size difference to rebalance
                     signal_dict['direction'] = np.sign(size_difference)
                     signal_dict['size'] = size_difference
+                    if signal_dict['direction'] < 0:
+                        signal_dict['order_type'] = 'reduce' # Reduce the position
                     
                     # Reset last_rebalance
                     self.last_rebalance = current_time
@@ -85,15 +88,11 @@ class Rebalance:
         value and current price per unit.
         '''
         
-        # TODO - need to verify functionality
-        
         account_balance = self.broker.get_balance()
         instrument_allocation_pc = self.params['rebalance_percentages'][self.instrument] / 100
         instrument_allocation_value = instrument_allocation_pc * account_balance * self.params['account_leverage']
         position_size = np.floor((instrument_allocation_value / price)* \
                                  10**self.params['partial_trade_rounding'])/10**self.params['partial_trade_rounding']
-        
-        # position_size = 1
         
         return position_size
     
