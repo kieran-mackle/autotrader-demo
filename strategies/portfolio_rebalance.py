@@ -83,13 +83,10 @@ class Rebalance:
                 # Assign time to last_rebalance attribute
                 self.last_rebalance = self.data.index[i]
         
-        
         return signal_dict
     
     def check_margin_requirements(self, price, size):
         ''' Returns maximum position size that satisfies margin requirements. '''
-        
-        # Only required when adding to a position
         
         # Check margin available
         margin_available = self.broker.get_margin_available()
@@ -109,12 +106,10 @@ class Rebalance:
         Calculates position size of instrument based on desired position
         value and current price per unit.
         '''
-        
         account_balance = self.broker.get_balance()
         instrument_allocation_pc = self.params['rebalance_percentages'][self.instrument] / 100
         instrument_allocation_value = instrument_allocation_pc * account_balance * self.params['account_leverage']
         position_size = np.floor((instrument_allocation_value / price)* \
                                  10**self.params['partial_trade_rounding'])/10**self.params['partial_trade_rounding']
-        
         return position_size
     
