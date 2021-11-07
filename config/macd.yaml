@@ -1,4 +1,4 @@
-NAME: 'Simple_macd_strategy'
+NAME: 'MACD Trend Strategy'
 MODULE: 'macd'
 CLASS: 'SimpleMACD'
 INTERVAL: '1h'
@@ -14,8 +14,8 @@ PARAMETERS:
   # Exit level parameters
   RR: 1.5
 
-WATCHLIST: ['EURUSD=X',
-            'EURJPY=X',
-            'EURAUD=X',
-            'AUDJPY=X']
+WATCHLIST: ['EURUSD=X',]
+            # 'EURJPY=X',
+            # 'EURAUD=X',
+            # 'AUDJPY=X']
             
