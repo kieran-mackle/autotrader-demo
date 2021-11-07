@@ -66,6 +66,9 @@ class Rebalance:
                     signal_dict['size'] = size_difference
                     if signal_dict['direction'] < 0:
                         signal_dict['order_type'] = 'reduce' # Reduce the position
+                    else:
+                        # Add to position, check margin requirments on size
+                        signal_dict['size'] = self.check_margin_requirements(self.data.Close[i], size_difference)
                     
                 # Reset last_rebalance time
                 self.last_rebalance = current_time
@@ -74,13 +77,32 @@ class Rebalance:
             # Haven't acquired all rebalance instruments yet
             if self.instrument not in current_holdings:
                 signal_dict['direction'] = 1 # buy
-                signal_dict['size'] = self.calculate_position_size(self.data.Close[i])
+                nominal_size = self.calculate_position_size(self.data.Close[i])
+                signal_dict['size'] = self.check_margin_requirements(self.data.Close[i], nominal_size)
                 
                 # Assign time to last_rebalance attribute
                 self.last_rebalance = self.data.index[i]
         
         
         return signal_dict
+    
+    def check_margin_requirements(self, price, size):
+        ''' Returns maximum position size that satisfies margin requirements. '''
+        
+        # Only required when adding to a position
+        
+        # Check margin available
+        margin_available = self.broker.get_margin_available()
+        
+        # Check trade will pass margin requirements
+        trade_value = price*size
+        
+        while trade_value > margin_available:
+            size *= 0.99 # reduce size by 1%
+            trade_value = price*size
+        
+        return size
+        
     
     def calculate_position_size(self, price):
         ''' 
