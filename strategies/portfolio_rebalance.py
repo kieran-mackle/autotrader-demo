@@ -67,8 +67,8 @@ class Rebalance:
                     if signal_dict['direction'] < 0:
                         signal_dict['order_type'] = 'reduce' # Reduce the position
                     
-                    # Reset last_rebalance
-                    self.last_rebalance = current_time
+                # Reset last_rebalance time
+                self.last_rebalance = current_time
             
         else:
             # Haven't acquired all rebalance instruments yet
