@@ -7,10 +7,24 @@ class Rebalance:
     '''
     Portfolio rebalancer
     --------------------
+    This strategy provides an example of a portfolio rebalancing strategy. It 
+    involves rebalancing three ETF's according to a 40/40/20 percentage split:
+        VAS: 40%
+        VGS: 40% 
+        VGB: 20%
+    These percentages and ETF's are provided by the 'rebalance_percentages' of
+    the configuration file. 
     
-    Warning: This strategy is still in development. It is incomplete.
+    Rebalancing occurs every 7 days, as dictated by the 'rebalance_every_N_days'
+    key of the configuration. There is also a 'rebalance_pc_tolerance' parameter,
+    which is used to control how many decimals the trade sizes are rounded to.
     
-    Size calculation assumes instrument is traded against home currency.
+    Note that the 'INCLUDE_BROKER' key is also included in the configuration
+    file. This signals to AutoTrader that the strategy requires direct access
+    to the broker (and possibly the broker utilities module), and so these 
+    must be included in the strategy's __init__ method. Including the 
+    broker allows us to access all methods of the broker's module, but 
+    specifically, to check the margin available on the account.
     
     '''
     
@@ -40,6 +54,21 @@ class Rebalance:
             current_time = self.data.index[i]
             days_since_last_rebalance = (current_time - self.last_rebalance).days
             
+            # # START PRINTOUT TO MONITOR ASSET ALLOCATION
+            # asset_allocation = {}
+            # total_value = 0
+            # for instrument in rebalance_instruments:
+            #     position_value = current_holdings[instrument]['total_margin']
+            #     asset_allocation[instrument] = position_value
+            #     total_value += position_value
+            
+            # pc_allocation = {}
+            # for instrument in asset_allocation:
+            #     pc_allocation[instrument] = round(100*asset_allocation[instrument]/total_value,2)
+            
+            # print(f"Asset allocation percentages: {pc_allocation}")
+            # # END PRINTOUT TO MONITOR ASSET ALLOCATION
+            
             if days_since_last_rebalance >= self.params['rebalance_every_N_days']:
                 # Calculate current asset allocation
                 asset_allocation = {}
@@ -54,6 +83,7 @@ class Rebalance:
                 
                 if allocation_error > self.params['rebalance_pc_tolerance']:
                     # Rebalance required
+                    # print(" REBALANCING")
                     
                     # Calculate required size to meet balance percentage
                     required_size = self.calculate_position_size(self.data.Close[i])
@@ -92,14 +122,13 @@ class Rebalance:
         margin_available = self.broker.get_margin_available()
         
         # Check trade will pass margin requirements
-        trade_value = price*size
+        margin_required = price*size / self.params['account_leverage']
         
-        while trade_value > margin_available:
+        while margin_required > margin_available:
             size *= 0.99 # reduce size by 1%
-            trade_value = price*size
+            margin_required = price*size / self.params['account_leverage']
         
         return size
-        
     
     def calculate_position_size(self, price):
         ''' 
