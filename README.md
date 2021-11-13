@@ -23,6 +23,22 @@ Alternatively, click [here](https://github.com/kieran-mackle/autotrader-demo/arc
 git clone https://github.com/kieran-mackle/autotrader-demo/ 
 ```
 
+### Backtest a Strategy
+After cloning this repo, you are ready to begin backtesting any of the strategies. Simply run `runfile.py`, after specifying the name of the strategy's configuration file (located in the `config/` directory). For example, to run the MACD Crossover Trend Strategy, the runfile will look as so:
+
+```py
+from autotrader.autotrader import AutoTrader      # Import AutoTrader
+
+at = AutoTrader()                                 # Create AutoTrader instance
+at.configure(show_plot=True, verbosity=1)         # Configure the settings of AutoTrader
+at.add_strategy('macd')                           # Provide the name of the strategy configuration file
+at.backtest(start = '1/1/2020',                   # Configure the backtest
+            end = '1/1/2021',
+            initial_balance=1000,
+            leverage = 30)
+at.run()                                          # Run AutoTrader
+```
+
 ### Tutorials
 If you would like a detailed explanation of how to construct a strategy with AutoTrader, refer to the tutorials on the AutoTrader website, by clicking 
 [here](https://kieran-mackle.github.io/AutoTrader/tutorials).
