@@ -44,13 +44,13 @@ If you would like a detailed explanation of how to construct a strategy with Aut
 [here](https://kieran-mackle.github.io/AutoTrader/tutorials).
 
 ## Demo Strategies
-The following is a list of demo strategies provided.
+The following is a list of demo strategies provided in this repository. The configuration file names of each is provided.
 
-- MACD Crossover Trend Strategy (from the website [tutorials](https://kieran-mackle.github.io/AutoTrader/tutorials/strategy))
-- EMA Crossover Strategy (long only example plus long/short Forex example)
-- SuperTrend Trend Detector ([AutoScan demo](https://kieran-mackle.github.io/AutoTrader/2021/09/27/developing-scanner.html))
-- Multiple timeframe EMA Crossover example
-- Portfolio rebalancing example
+- `macd.yaml` MACD Crossover Trend Strategy (from the website [tutorials](https://kieran-mackle.github.io/AutoTrader/tutorials/strategy))
+- `ema_crossover.yaml`/`long_ema_crossover.yaml` EMA Crossover Strategy (long only example plus long/short Forex example)
+- `supertrend.yaml` SuperTrend Trend Detector ([AutoScan demo](https://kieran-mackle.github.io/AutoTrader/2021/09/27/developing-scanner.html))
+- `MTF_ema_crossover.yaml` Multiple timeframe EMA Crossover example
+- `rebalance.yaml` Portfolio rebalancing example
 
 ### Requesting a Strategy
 Have a strategy you would like to be automated? Request it [here](https://github.com/kieran-mackle/autotrader-demo/issues/new?assignees=&labels=&template=strategy-request.md&title=%5BSTRATEGY+REQUEST%5D).
