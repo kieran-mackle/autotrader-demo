@@ -1,0 +1,15 @@
+NAME: 'EMA Crossover'
+MODULE: 'sma_momentum'
+CLASS: 'SMAMomentum'
+INTERVAL: '5m'
+PERIOD: 300
+RISK_PC: 1
+SIZING: 'risk'
+PARAMETERS:
+  sma_period: 44 # period of SMA
+  candle_lookback: 4 # look back over this many candles
+  RR: 4.0 # risk-to-reward ratio
+  exit_buffer: 0.2 # price units
+
+# Define pairs to monitor
+WATCHLIST: ['AAPL']
