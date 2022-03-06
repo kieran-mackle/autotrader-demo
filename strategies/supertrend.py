@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Package import
-from autotrader.lib.indicators import supertrend
+from autotrader.indicators import supertrend
 from finta import TA
 
 class SuperTrendScan:

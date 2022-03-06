@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Package import
-from autotrader.lib.indicators import supertrend, candles_between_crosses, rolling_signal_list
+from autotrader.indicators import supertrend, candles_between_crosses, rolling_signal_list
 from finta import TA
 import numpy as np
 

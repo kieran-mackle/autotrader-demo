@@ -8,3 +8,4 @@ SIZING: 'risk'
 PARAMETERS:
   ema_period: 200
   candle_tol: 10
+WATCHLIST: ['EURUSD=X']

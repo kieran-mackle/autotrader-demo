@@ -11,7 +11,7 @@ from autotrader.autotrader import AutoTrader
 at = AutoTrader()
 at.configure(verbosity=1, show_plot=True)
 at.add_strategy('macd')
-at.backtest(start = '1/1/2022',
+at.backtest(start = '1/8/2021',
             end = '1/3/2022',
             initial_balance=1000,
             leverage = 30)

@@ -1,7 +1,7 @@
 NAME: 'EMA Crossover'
 MODULE: 'sma_momentum'
 CLASS: 'SMAMomentum'
-INTERVAL: '5m'
+INTERVAL: '1h'
 PERIOD: 300
 RISK_PC: 1
 SIZING: 'risk'

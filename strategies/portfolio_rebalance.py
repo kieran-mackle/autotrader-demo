@@ -45,7 +45,7 @@ class Rebalance:
         
         # Get current positions held by account
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
-        current_holdings = self.broker.get_open_positions(rebalance_instruments)
+        current_holdings = self.broker.get_positions(rebalance_instruments)
 
         if all(inst in current_holdings.keys() for inst in rebalance_instruments):
             # A position is held in all of the rebalance instruments
@@ -74,7 +74,7 @@ class Rebalance:
                 asset_allocation = {}
                 total_value = 0
                 for instrument in rebalance_instruments:
-                    position_value = current_holdings[instrument]['total_margin']
+                    position_value = current_holdings[instrument].total_margin
                     asset_allocation[instrument] = position_value
                     total_value += position_value
                 
@@ -89,7 +89,7 @@ class Rebalance:
                     required_size = self.calculate_position_size(self.data.Close[i])
                     
                     # Calculate difference between required size and current position size
-                    size_difference = required_size - current_holdings[self.instrument]['long_units']
+                    size_difference = required_size - current_holdings[self.instrument].long_units
                     
                     # Place order using calculated size difference to rebalance
                     signal_dict['direction'] = np.sign(size_difference)

@@ -1,7 +1,7 @@
 # Import packages
 from finta import TA
 
-class SMAMomentum():
+class SMAMomentum:
     '''
     SMA Momentum Strategy (requested by @rahulmr). 
     

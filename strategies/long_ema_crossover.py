@@ -1,8 +1,8 @@
 # Import packages
 from finta import TA
-from autotrader.lib.indicators import crossover
+from autotrader.indicators import crossover
 
-class LongEMAcrossOver():
+class LongEMAcrossOver:
     '''
     EMA Crossover example strategy. 
     
@@ -47,7 +47,7 @@ class LongEMAcrossOver():
             # Already in a position, only look for long exits
             if self.crossovers[i] == -1:
                 signal = -1
-                related_orders = current_position[self.instrument]['trade_IDs'][0]
+                related_orders = current_position[self.instrument].as_dict()['trade_IDs'][0]
                 order_type = 'close'
         
         # Construct signal dictionary

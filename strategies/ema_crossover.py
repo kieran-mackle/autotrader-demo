@@ -1,12 +1,10 @@
 # Import packages
-import talib
-from autotrader.lib.indicators import crossover
+from finta import TA
+from autotrader.indicators import crossover
 
-class EMAcrossOver():
-    '''
-    EMA Crossover example strategy. 
-    
-    '''
+class EMAcrossOver:
+    """EMA Crossover example strategy. 
+    """
     
     def __init__(self, params, data, instrument):
         ''' Define all indicators used in the strategy '''
@@ -15,17 +13,14 @@ class EMAcrossOver():
         self.params = params
         
         # EMA's
-        self.slow_ema = talib.EMA(self.data.Close.values, 
-                                  self.params['slow_ema'])
+        self.slow_ema = TA.EMA(self.data, self.params['slow_ema'])
         
-        self.fast_ema = talib.EMA(self.data.Close.values, 
-                                  self.params['fast_ema'])
+        self.fast_ema = TA.EMA(self.data, self.params['fast_ema'])
         
-        self.crossovers = crossover(self.fast_ema, 
-                                    self.slow_ema)
+        self.crossovers = crossover(self.fast_ema, self.slow_ema)
         
         # ATR for stops
-        self.atr = talib.ATR(data.High, data.Low, data.Close, 14)
+        self.atr = TA.ATR(data, 14)
         
         # Construct indicators dict for plotting
         self.indicators = {'Fast EMA': {'type': 'MA',

@@ -1,8 +1,8 @@
 # Import packages
 from finta import TA
-from autotrader.lib.indicators import crossover
+from autotrader.indicators import crossover
 
-class EMAcrossOver():
+class EMAcrossOver:
     '''
     EMA Crossover example strategy. 
     
@@ -44,11 +44,11 @@ class EMAcrossOver():
         # Construct indicators dict for plotting
         self.indicators = {'Fast EMA': {'type': 'MA',
                                         'data': self.fast_ema},
-                           'Slow EMA': {'type': 'MA',
+                            'Slow EMA': {'type': 'MA',
                                         'data': self.slow_ema},
-                           'Daily EMA': {'type': 'MA',
-                                         'data': self.daily_ema}
-                           }
+                            'Daily EMA': {'type': 'MA',
+                                          'data': self.daily_ema}
+                            }
         
     def generate_signal(self, i, current_positions):
         ''' Define strategy to determine entry signals '''
