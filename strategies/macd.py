@@ -1,25 +1,22 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 ''' 
-
-Simple MACD strategy. 
-------------------------
+Simple MACD strategy
+--------------------
 Rules for strategy:
     1. Trade in direction of trend, as per 200EMA.
     2. Entry signal on MACD cross below/above zero line.
     3. Set stop loss at recent price swing.
     4. Target 1.5 take profit.
-
 '''
 
 # Import packages
 from finta import TA
-from autotrader.lib import indicators
+from autotrader import indicators
 
 class SimpleMACD:
 
     def __init__(self, params, data, pair):
-        ''' Define all indicators used in the strategy '''
+        """Define all indicators used in the strategy.
+        """
         self.name   = "Simple MACD Trend Strategy"
         self.data   = data
         self.params = params
@@ -34,6 +31,10 @@ class SimpleMACD:
         self.MACD_CO_vals   = indicators.cross_values(self.MACD.MACD, 
                                                       self.MACD.SIGNAL,
                                                       self.MACD_CO)
+        
+        # Price swings
+        self.swings     = indicators.find_swings(data)
+        
         # Construct indicators dict for plotting
         self.indicators = {'MACD (12/26/9)': {'type': 'MACD',
                                               'macd': self.MACD.MACD,
@@ -41,15 +42,12 @@ class SimpleMACD:
                            'EMA (200)': {'type': 'MA',
                                          'data': self.ema}}
         
-        # Price swings
-        self.swings     = indicators.find_swings(data)
         
     def generate_signal(self, i, current_position):
-        ''' Define strategy to determine entry signals '''
-        
+        """Define strategy to determine entry signals.
+        """
         order_type  = 'market'
         signal_dict = {}
-        related_orders  = None
         
         if self.data.Close.values[i] > self.ema[i] and \
             self.MACD_CO[i] == 1 and \
@@ -76,8 +74,10 @@ class SimpleMACD:
         
         return signal_dict
     
+    
     def generate_exit_levels(self, signal, i):
-        ''' Function to determine stop loss and take profit levels '''
+        """Function to determine stop loss and take profit levels.
+        """
         
         stop_type   = 'limit'
         RR          = self.params['RR']
