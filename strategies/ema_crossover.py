@@ -29,7 +29,7 @@ class EMAcrossOver:
                                         'data': self.slow_ema}
                             }
         
-    def generate_signal(self, i, current_positions):
+    def generate_signal(self, i):
         ''' Define strategy to determine entry signals '''
         signal_dict     = {}
         RR = self.params['RR']
