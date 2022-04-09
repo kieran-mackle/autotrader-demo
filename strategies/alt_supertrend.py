@@ -18,13 +18,13 @@ class SuperTrendScan:
     to pick up trends a few periods later than initially intended.
     """
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Initialise strategy indicators '''
         self.name   = "SuperTrend"
         self.data   = data
-        self.params = params
+        self.params = parameters
         
-        ema = TA.EMA(data, params['ema_period'])
+        ema = TA.EMA(data, parameters['ema_period'])
         st_df  = supertrend(data, period = 12, ATR_multiplier = 2)
         
         self.signals = np.zeros(len(data))

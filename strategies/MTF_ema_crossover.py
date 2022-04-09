@@ -8,16 +8,16 @@ class EMAcrossOver:
     
     '''
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Define all indicators used in the strategy '''
         self.name   = "EMA Crossover Strategy"
-        self.params = params
+        self.params = parameters
         
         # Extract timeframes from data
         # Note that daily_data timezone must be localised to tz of hourly
         # data since it will otherwise be naive
         hourly_data = data['1h']
-        daily_data = data['1d'].tz_localize(hourly_data.index.dtype.tz)
+        daily_data = data['1d']
         
         # Assign hourly data to class attribute
         self.hourly_data = hourly_data
@@ -50,7 +50,7 @@ class EMAcrossOver:
                                           'data': self.daily_ema}
                             }
         
-    def generate_signal(self, i, current_positions):
+    def generate_signal(self, i):
         ''' Define strategy to determine entry signals '''
         signal_dict     = {}
         RR = self.params['RR']

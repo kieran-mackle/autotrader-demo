@@ -6,11 +6,11 @@ class EMAcrossOver:
     """EMA Crossover example strategy. 
     """
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Define all indicators used in the strategy '''
         self.name   = "EMA Crossover Strategy"
         self.data   = data
-        self.params = params
+        self.params = parameters
         
         # EMA's
         self.slow_ema = TA.EMA(self.data, self.params['slow_ema'])

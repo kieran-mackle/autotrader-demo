@@ -14,11 +14,11 @@ class SuperTrendScan:
     
     """
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Initialise strategy indicators '''
         self.name   = "SuperTrend"
         self.data   = data
-        self.params = params
+        self.params = parameters
         
         self.ema200 = TA.EMA(data, 200)
         self.st_df  = supertrend(data, period = 12, ATR_multiplier = 2)

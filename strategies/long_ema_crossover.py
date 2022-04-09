@@ -8,11 +8,11 @@ class LongEMAcrossOver:
     
     '''
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Define all indicators used in the strategy '''
         self.name   = "Strategy name"
         self.data   = data
-        self.params = params
+        self.params = parameters
         self.instrument = instrument
         
         # EMA's

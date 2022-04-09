@@ -28,16 +28,16 @@ class Rebalance:
     
     '''
     
-    def __init__(self, params, data, instrument, broker, broker_utils):
+    def __init__(self, parameters, data, instrument, broker, broker_utils):
         ''' Define all indicators used in the strategy '''
         self.name   = "Portfolio rebalancer"
         self.data   = data
-        self.params = params
+        self.params = parameters
         self.instrument = instrument
         self.broker = broker
         self.last_rebalance = None
         
-    def generate_signal(self, i, current_position):
+    def generate_signal(self, i):
         ''' Define strategy to determine entry signals '''
         
         signal_dict = {'order_type': 'market',

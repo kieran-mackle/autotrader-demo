@@ -14,16 +14,16 @@ class SimpleMACD:
     4. Target 1.5 take profit.
     """
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         """Define all indicators used in the strategy.
         """
         self.name = "MACD Trend Strategy"
         self.data = data
-        self.params = params
+        self.params = parameters
         self.instrument = instrument
         
         # 200EMA
-        self.ema = TA.EMA(data, params['ema_period'])
+        self.ema = TA.EMA(data, parameters['ema_period'])
         
         # MACD
         self.MACD = TA.MACD(data, self.params['MACD_fast'], 

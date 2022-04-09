@@ -5,6 +5,7 @@ INTERVAL: '1h'
 PERIOD: 300
 RISK_PC: 90
 SIZING: 'risk'
+INCLUDE_POSITIONS: True
 PARAMETERS:
   slow_ema: 20
   fast_ema: 10

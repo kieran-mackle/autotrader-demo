@@ -16,21 +16,21 @@ class SMAMomentum:
     
     '''
     
-    def __init__(self, params, data, instrument):
+    def __init__(self, parameters, data, instrument):
         ''' Define all indicators used in the strategy '''
         self.name   = "SMA Momentum Strategy"
         self.data   = data
-        self.params = params
+        self.params = parameters
         
         # SMA
-        self.sma = TA.SMA(data, int(params['sma_period']))
+        self.sma = TA.SMA(data, int(parameters['sma_period']))
         
         # Construct indicators dict for plotting
         self.indicators = {'SMA': {'type': 'MA',
                                    'data': self.sma},
                             }
         
-    def generate_signal(self, i, current_positions):
+    def generate_signal(self, i):
         ''' Define strategy to determine entry signals '''
         signal_dict = {}
         RR = self.params['RR']
