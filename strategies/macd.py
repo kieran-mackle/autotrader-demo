@@ -39,7 +39,8 @@ class SimpleMACD:
         # Construct indicators dict for plotting
         self.indicators = {'MACD (12/26/9)': {'type': 'MACD',
                                               'macd': self.MACD.MACD,
-                                              'signal': self.MACD.SIGNAL},
+                                              'signal': self.MACD.SIGNAL,
+                                              'histogram': self.MACD.MACD-self.MACD.SIGNAL},
                            'EMA (200)': {'type': 'MA',
                                          'data': self.ema}}
         
