@@ -3,7 +3,7 @@ MODULE: 'macd'
 CLASS: 'SimpleMACD'
 INTERVAL: '1h'
 PERIOD: 300
-RISK_PC: 1.5
+RISK_PC: 1
 SIZING: 'risk'
 PARAMETERS:
   ema_period: 200
@@ -14,7 +14,7 @@ PARAMETERS:
   # Exit level parameters
   RR: 1.5
 
-WATCHLIST: ['EURUSD=X',]
+WATCHLIST: ['ETH-USD',]
             # 'EURJPY=X',
             # 'EURAUD=X',
             # 'AUDJPY=X']
