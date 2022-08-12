@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import numpy as np
+
 
 class Rebalance:
     '''
@@ -45,7 +43,7 @@ class Rebalance:
         
         # Get current positions held by account
         rebalance_instruments = list(self.params['rebalance_percentages'].keys())
-        current_holdings = self.broker.get_positions(rebalance_instruments)
+        current_holdings = self.broker.get_positions()
 
         if all(inst in current_holdings.keys() for inst in rebalance_instruments):
             # A position is held in all of the rebalance instruments
@@ -93,12 +91,7 @@ class Rebalance:
                     
                     # Place order using calculated size difference to rebalance
                     signal_dict['direction'] = np.sign(size_difference)
-                    signal_dict['size'] = size_difference
-                    if signal_dict['direction'] < 0:
-                        signal_dict['order_type'] = 'reduce' # Reduce the position
-                    else:
-                        # Add to position, check margin requirments on size
-                        signal_dict['size'] = self.check_margin_requirements(self.data.Close[i], size_difference)
+                    signal_dict['size'] = self.check_margin_requirements(self.data.Close[i], size_difference)
                     
                 # Reset last_rebalance time
                 self.last_rebalance = current_time
