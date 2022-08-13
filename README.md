@@ -6,7 +6,7 @@
 
 <h1 align="center">Welcome to the AutoTrader Demo Repository</h1>
 
-This repository contains example files to help you get started with [AutoTrader](https://github.com/kieran-mackle/AutoTrader). More strategies will be added over time.
+This repository contains example strategies to help you get started with [AutoTrader](https://github.com/kieran-mackle/AutoTrader). Please note that the strategies here are for the latest release of AutoTrader.
 
 ## Getting Started
 ### Install AutoTrader
