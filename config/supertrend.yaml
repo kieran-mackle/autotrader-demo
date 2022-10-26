@@ -2,7 +2,7 @@ NAME: 'SuperTrend Scanner'
 MODULE: 'alt_supertrend'
 CLASS: 'SuperTrendScan'
 INTERVAL: '1d'
-PERIOD: 300
+PERIOD: 200
 RISK_PC: 1.5
 SIZING: 'risk'
 PARAMETERS:
