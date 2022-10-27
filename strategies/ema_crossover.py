@@ -1,62 +1,78 @@
-# Import packages
 from finta import TA
+from autotrader import Order
 from autotrader.indicators import crossover
 
+
 class EMAcrossOver:
-    """EMA Crossover example strategy. 
+    """EMA Crossover example strategy.
+
+    Entry signals are on crosses of two EMA's, with a stop-loss
+    set using the ATR. 
     """
     
     def __init__(self, parameters, data, instrument):
-        ''' Define all indicators used in the strategy '''
-        self.name   = "EMA Crossover Strategy"
-        self.data   = data
-        self.params = parameters
-        
-        # EMA's
-        self.slow_ema = TA.EMA(self.data, self.params['slow_ema'])
-        
-        self.fast_ema = TA.EMA(self.data, self.params['fast_ema'])
-        
-        self.crossovers = crossover(self.fast_ema, self.slow_ema)
-        
-        # ATR for stops
-        self.atr = TA.ATR(data, 14)
+        """Define all indicators used in the strategy."""
+        self.name = "EMA Crossover Strategy"
+        self.instrument = instrument
+        self.data = data
+        self.parameters = parameters
         
         # Construct indicators dict for plotting
-        self.indicators = {'Fast EMA': {'type': 'MA',
-                                        'data': self.fast_ema},
-                            'Slow EMA': {'type': 'MA',
-                                        'data': self.slow_ema}
-                            }
+        self.indicators = {
+            'Fast EMA': {
+                'type': 'MA',
+                'data': TA.EMA(data, self.parameters['fast_ema'])
+            },
+            'Slow EMA': {
+                'type': 'MA',
+                'data': TA.EMA(data, self.parameters['slow_ema'])
+            }
+        }
+    
+    def generate_features(self, data):
+        """Calculates the indicators required to run the strategy."""
+        # EMA's
+        slow_ema = TA.EMA(data, self.parameters['slow_ema'])
+        fast_ema = TA.EMA(data, self.parameters['fast_ema'])
         
-    def generate_signal(self, i):
-        ''' Define strategy to determine entry signals '''
-        signal_dict     = {}
-        RR = self.params['RR']
+        crossovers = crossover(fast_ema, slow_ema)
         
-        if self.crossovers[i] == 1:
+        # ATR for stops
+        atr = TA.ATR(data, 14)
+
+        return crossovers, atr
+
+    def generate_signal(self, data):
+        """Define strategy to determine entry signals."""
+        crossovers, atr = self.generate_features(data)
+
+        RR = self.parameters['RR']
+        if crossovers[-1] > 0:
             # Fast EMA has crossed above slow EMA, go long
-            signal  = 1
-            stop    = self.data.Close[i] - 2*self.atr[i]
-            take    = self.data.Close[i] + RR*(self.data.Close[i] - stop)
+            stop = data["Close"][-1] - 2*atr[-1]
+            take = data["Close"][-1] + RR*(data["Close"][-1] - stop)
+
+            order = Order(
+                instrument=self.instrument,
+                direction=1,
+                stop_loss=stop,
+                take_profit=take,
+            )
             
-        elif self.crossovers[i] == -1:
+        elif crossovers[-1] < 0:
             # Fast EMA has crossed below slow EMA, go short
-            signal  = -1
-            stop    = self.data.Close[i] + 2*self.atr[i]
-            take    = self.data.Close[i] + RR*(self.data.Close[i] - stop)
+            stop = data["Close"][-1] + 2*atr[-1]
+            take = data["Close"][-1] + RR*(data["Close"][-1] - stop)
+
+            order = Order(
+                instrument=self.instrument,
+                direction=-1,
+                stop_loss=stop,
+                take_profit=take,
+            )
         
         else:
-            # No signal
-            signal  = 0
-            stop    = None
-            take    = None
+            # No signal - create blank order
+            order = Order()
         
-        # Construct signal dictionary
-        signal_dict["order_type"] = 'market'
-        signal_dict["direction"] = signal
-        signal_dict["stop_loss"] = stop
-        signal_dict["stop_type"] = 'limit'
-        signal_dict["take_profit"] = take
-        
-        return signal_dict
+        return order
