@@ -11,7 +11,7 @@ class SuperTrendScan:
     -----------------------------
     The code below was developed for detecting trends using the SuperTrend
     indicator. You can read more about it at:
-        https://kieran-mackle.github.io/AutoTrader/blog
+        https://kieran-mackle.github.io/AutoTrader/2021/09/27/developing-scanner.html
         
     This is a revised version, which will provide signals for a specified period
     after they are first recieved. This will allow manual running of the script 
