@@ -2,9 +2,6 @@ NAME: 'MACD Trend Strategy'
 MODULE: 'macd'
 CLASS: 'SimpleMACD'
 INTERVAL: '1h'
-PERIOD: 300
-RISK_PC: 1
-SIZING: 'risk'
 PARAMETERS:
   ema_period: 200
   MACD_fast: 12

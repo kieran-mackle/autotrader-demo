@@ -1,17 +1,22 @@
+# """This is an example of using AutoTraders plotting module."""
 from datetime import datetime
-from autotrader import AutoData, AutoPlot, indicators
+from autotrader import AutoTrader, AutoPlot, indicators
 
 
-# Instantiate GetData class
-get_data = AutoData(data_source="yahoo")
+# Instantiate AutoTrader and configure the exchange to trade on/immitate
+at = AutoTrader()
+at.configure(broker="ccxt:bybit")
 
-# Get price data for EUR/USD
-instrument = "EURUSD=X"
-data = get_data.fetch(
+# Run AutoTrader to get the broker connection(s)
+broker = at.run()
+
+# Get candles
+instrument = "ETH/USDT"
+data = broker.get_candles(
     instrument=instrument,
-    granularity="1h",
-    start_time=datetime(2021, 1, 1),
-    end_time=datetime(2021, 3, 1),
+    granularity="1d",
+    start_time=datetime(2023, 1, 1),
+    end_time=datetime(2024, 2, 1),
 )
 
 # Construct indicators dictionary

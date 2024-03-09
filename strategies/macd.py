@@ -1,9 +1,13 @@
+import pandas as pd
 from finta import TA
+from datetime import datetime
+from autotrader.strategy import Strategy
 import autotrader.indicators as indicators
 from autotrader.brokers.trading import Order
+from autotrader.brokers.broker import Broker
 
 
-class SimpleMACD:
+class SimpleMACD(Strategy):
     """Simple MACD Strategy
 
     Rules
@@ -14,75 +18,93 @@ class SimpleMACD:
     4. Target 1.5 take profit.
     """
 
-    def __init__(self, parameters, data, instrument):
+    def __init__(
+        self, parameters: dict, instrument: str, broker: Broker, *args, **kwargs
+    ) -> None:
         """Define all indicators used in the strategy."""
         self.name = "MACD Trend Strategy"
-        self.data = data
         self.params = parameters
+        self.broker = broker
         self.instrument = instrument
 
+    def create_plotting_indicators(self, data: pd.DataFrame):
+        # Construct indicators dict for plotting
+        ema, MACD, MACD_CO, MACD_CO_vals, swings = self.generate_features(data)
+        self.indicators = {
+            "MACD (12/26/9)": {
+                "type": "MACD",
+                "macd": MACD.MACD,
+                "signal": MACD.SIGNAL,
+                "histogram": MACD.MACD - MACD.SIGNAL,
+            },
+            "EMA (200)": {"type": "MA", "data": ema},
+        }
+
+    def generate_features(self, data: pd.DataFrame):
         # 200EMA
-        self.ema = TA.EMA(data, parameters["ema_period"])
+        ema = TA.EMA(data, self.params["ema_period"])
 
         # MACD
-        self.MACD = TA.MACD(
+        MACD = TA.MACD(
             data,
             self.params["MACD_fast"],
             self.params["MACD_slow"],
             self.params["MACD_smoothing"],
         )
-        self.MACD_CO = indicators.crossover(self.MACD.MACD, self.MACD.SIGNAL)
-        self.MACD_CO_vals = indicators.cross_values(
-            self.MACD.MACD, self.MACD.SIGNAL, self.MACD_CO
-        )
+        MACD_CO = indicators.crossover(MACD.MACD, MACD.SIGNAL)
+        MACD_CO_vals = indicators.cross_values(MACD.MACD, MACD.SIGNAL, MACD_CO)
 
         # Price swings
-        self.swings = indicators.find_swings(data)
+        swings = indicators.find_swings(data)
 
-        # Construct indicators dict for plotting
-        self.indicators = {
-            "MACD (12/26/9)": {
-                "type": "MACD",
-                "macd": self.MACD.MACD,
-                "signal": self.MACD.SIGNAL,
-                "histogram": self.MACD.MACD - self.MACD.SIGNAL,
-            },
-            "EMA (200)": {"type": "MA", "data": self.ema},
-        }
+        return ema, MACD, MACD_CO, MACD_CO_vals, swings
 
-    def generate_signal(self, i, **kwargs):
+    def generate_signal(self, dt: datetime):
         """Define strategy to determine entry signals."""
+        # Get OHLCV data
+        data = self.broker.get_candles(self.instrument, granularity="1h", count=300)
+        if len(data) < 300:
+            # This was previously a check in AT
+            return None
 
+        # Generate indicators
+        ema, MACD, MACD_CO, MACD_CO_vals, swings = self.generate_features(data)
+
+        # Create orders
         if (
-            self.data["Close"].values[i] > self.ema.iloc[i]
-            and self.MACD_CO.iloc[i] == 1
-            and self.MACD_CO_vals.iloc[i] < 0
+            data["Close"].values[-1] > ema.iloc[-1]
+            and MACD_CO.iloc[-1] == 1
+            and MACD_CO_vals.iloc[-1] < 0
         ):
-            exit_dict = self.generate_exit_levels(signal=1, i=i)
+            exit_dict = self.generate_exit_levels(signal=1, data=data, swings=swings)
             new_order = Order(
                 direction=1,
+                size=1,
                 stop_loss=exit_dict["stop_loss"],
                 take_profit=exit_dict["take_profit"],
             )
 
         elif (
-            self.data["Close"].values[i] < self.ema.iloc[i]
-            and self.MACD_CO.iloc[i] == -1
-            and self.MACD_CO_vals.iloc[i] > 0
+            data["Close"].values[-1] < ema.iloc[-1]
+            and MACD_CO.iloc[-1] == -1
+            and MACD_CO_vals.iloc[-1] > 0
         ):
-            exit_dict = self.generate_exit_levels(signal=-1, i=i)
+            exit_dict = self.generate_exit_levels(signal=-1, data=data, swings=swings)
             new_order = Order(
                 direction=-1,
+                size=1,
                 stop_loss=exit_dict["stop_loss"],
                 take_profit=exit_dict["take_profit"],
             )
 
         else:
-            new_order = Order()
+            new_order = None
 
         return new_order
 
-    def generate_exit_levels(self, signal, i):
+    def generate_exit_levels(
+        self, signal: int, data: pd.DataFrame, swings: pd.DataFrame
+    ):
         """Function to determine stop loss and take profit levels."""
         stop_type = "limit"
         RR = self.params["RR"]
@@ -92,15 +114,11 @@ class SimpleMACD:
             take = None
         else:
             if signal == 1:
-                stop = self.swings["Lows"].iloc[i]
-                take = self.data["Close"].iloc[i] + RR * (
-                    self.data["Close"].iloc[i] - stop
-                )
+                stop = swings["Lows"].iloc[-1]
+                take = data["Close"].iloc[-1] + RR * (data["Close"].iloc[-1] - stop)
             else:
-                stop = self.swings["Highs"].iloc[i]
-                take = self.data["Close"].iloc[i] - RR * (
-                    stop - self.data["Close"].iloc[i]
-                )
+                stop = swings["Highs"].iloc[-1]
+                take = data["Close"].iloc[-1] - RR * (stop - data["Close"].iloc[-1])
 
         exit_dict = {"stop_loss": stop, "stop_type": stop_type, "take_profit": take}
 
