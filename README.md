@@ -8,6 +8,8 @@
 
 This repository contains example strategies to help you get started with [AutoTrader](https://github.com/kieran-mackle/AutoTrader). Please note that the strategies here are for the latest release of AutoTrader.
 
+**Are you looking to trade crypto?** Then you may be more interested in my other project, [cryptobots](https://github.com/kieran-mackle/cryptobots).
+
 ## Getting Started
 ### Install AutoTrader
 To run the strategies in this repository, you must first have AutoTrader installed. The easiest way to do so is by using pip:
